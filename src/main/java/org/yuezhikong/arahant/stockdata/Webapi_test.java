@@ -1,10 +1,11 @@
-package org.test.stock;
+package org.yuezhikong.arahant.stockdata;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -110,14 +111,29 @@ public class Webapi_test {
     public void webapi_example() {
         String token=gettoken("http://webapi.cninfo.com.cn/api-cloud-platform/oauth2/token",
                 "grant_type=client_credentials&client_id=Mcioq2pC7YkWiWg75WYjL3eYvEeWVhs6&client_secret=f955c5b209cf406a9fc964c17bf55fee");  //请在平台注册后并填入个人中心-我的凭证中的Access Key，Access Secret
-        String url="http://webapi.cninfo.com.cn/api/stock/p_stock2402?&access_token="+token+"&scode=000001&edate=20180306";//接口名、参数名、参数值请按实际情况填写
+        String url="http://webapi.cninfo.com.cn/api/stock/p_stock2402?&access_token="+token+"&scode=000001&sdate=20180306&edate=20180306";//接口名、参数名、参数值请按实际情况填写
         String page = getpage(url,"utf-8") ;
         System.out.println(page);
         JSONObject jb = JSONObject.fromObject(page);
         JSONArray ja = jb.getJSONArray("records");
         try{
             for (int i = 0; i < ja.size(); i++) {
+                //stock_code
+                System.out.println(ja.getJSONObject(i).getString("SECCODE"));
+                //stock_name
+                System.out.println(ja.getJSONObject(i).getString("SECNAME"));
+                //trade_date
+                System.out.println(ja.getJSONObject(i).getString("TRADEDATE"));
+                //yesterday_end_price;
                 System.out.println(ja.getJSONObject(i).getString("F002N"));
+                //today_start_price;
+                System.out.println(ja.getJSONObject(i).getString("F003N"));
+                //max_trade_price;
+                System.out.println(ja.getJSONObject(i).getString("F005N"));
+                //min_trade_price;
+                System.out.println(ja.getJSONObject(i).getString("F006N"));
+                //lately_trade_price;
+                System.out.println(ja.getJSONObject(i).getString("F007N"));
             }
         }catch (JSONException e)
         {
