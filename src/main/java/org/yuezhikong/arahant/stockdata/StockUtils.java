@@ -34,11 +34,9 @@ public class StockUtils {
                     lines = new String(lines.getBytes(), "utf-8");
                     jsonString+=lines;
                 }
-                System.out.println(jsonString);
                 JSONObject jb = JSONObject.fromObject(jsonString);
                 String access_token = "";
                 access_token=jb.getString("access_token");
-                System.out.println(access_token);
                 reader.close();
                 return access_token;
             }catch(IOException e1)

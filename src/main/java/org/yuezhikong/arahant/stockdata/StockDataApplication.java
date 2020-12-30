@@ -29,16 +29,8 @@ public class StockDataApplication implements CommandLineRunner {
 	public  static  ExecutorService fixedThreadPool = Executors.newFixedThreadPool(8);
 	@Override
 	public void run(String... args) throws Exception {
-		for (int i=1989;i<=2019;i++){
-			String sdate = String.valueOf(i)+"0101";
-			String edate = String.valueOf(i)+"1231";
-			List<String> scode =returnStockCode(edate);
-			insert(scode,sdate,edate);
-		}
-		String sdate = String.valueOf(2020)+"0101";
-		String edate = String.valueOf(2020)+"1230";
-		List<String> scode =returnStockCode(edate);
-		insert(scode,sdate,edate);
+		List<String> scode =returnStockCode("20201230");
+		insert(scode,"19890101","20201230");
 	}
 
 	private List<String> returnStockCode(String edate){
@@ -62,7 +54,7 @@ public class StockDataApplication implements CommandLineRunner {
 
 	private void insert(List<String> codes,String sdate,String edate){
 		String token=StockUtils.gettoken("http://webapi.cninfo.com.cn/api-cloud-platform/oauth2/token",
-				"grant_type=client_credentials&client_id=Mcioq2pC7YkWiWg75WYjL3eYvEeWVhs6&client_secret=f955c5b209cf406a9fc964c17bf55fee");  //请在平台注册后并填入个人中心-我的凭证中的Access Key，Access Secret
+				"grant_type=client_credentials&client_id=Mcioq2pC7YkWiWg75WYjL3eYvEeWVhs6&client_secret=1df864d1219648fc9653ba2ff0d35ba4");  //请在平台注册后并填入个人中心-我的凭证中的Access Key，Access Secret
 		for (String code:codes){
 			String url="http://webapi.cninfo.com.cn/api/stock/p_stock2402?&access_token="+token+"&scode="+code+"&sdate="+sdate+"&edate="+edate;//接口名、参数名、参数值请按实际情况填写
 			String page = StockUtils.getpage(url,"utf-8") ;
@@ -94,7 +86,8 @@ public class StockDataApplication implements CommandLineRunner {
 				}
 				jdbcTemplate.batchUpdate(sql,batchArgs);
 				System.out.println("从"+sdate+"到"+edate+"代码"+code+"插入成功");
-			}catch (JSONException e)
+				Thread.sleep(15000);
+			}catch (JSONException | InterruptedException e)
 			{
 				e.printStackTrace();
 			}
