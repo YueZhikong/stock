@@ -30,7 +30,7 @@ for index, row in data.iterrows():
     # print(data)
 try:
     with connection.cursor() as cursor:
-        sql = "INSERT INTO `stock_day`(`sysmbol`, `open`, `close`, `high`, `low`, `amount`, `volome`, `bob`, `eob`) " \
+        sql = "INSERT INTO `stock_day`(`symbol`, `open`, `close`, `high`, `low`, `amount`, `volume`, `bob`, `eob`) " \
               "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor.executemany(sql, batch)
         connection.commit()

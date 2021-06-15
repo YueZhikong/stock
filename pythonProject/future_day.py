@@ -14,7 +14,7 @@ connection = pymysql.connect(host='localhost',
                              charset='utf8',
                              cursorclass=pymysql.cursors.DictCursor)
 # 查询历史行情, 采用定点复权的方式， adjust指定前复权，adjust_end_time指定复权时间点
-data = history(symbol='	CZCE.RM109', frequency='1d', start_time='2005-01-01', end_time='2021-01-01',
+data = history(symbol='	CZCE.RM109', frequency='1d', start_time='2021-01-01', end_time='2021-06-15',
                fields='symbol,open,close,high,low,amount,volume,bob,eob,position', adjust=ADJUST_NONE, df=True)
 print(data)
 batch = []
@@ -30,7 +30,7 @@ for index, row in data.iterrows():
     # print(data)
 try:
     with connection.cursor() as cursor:
-        sql = "INSERT INTO `future_day`(`sysmbol`, `open`, `close`, `high`, `low`, `amount`, `volome`, `bob`, `eob`,`position`) " \
+        sql = "INSERT INTO `future_day`(`symbol`, `open`, `close`, `high`, `low`, `amount`, `volume`, `bob`, `eob`,`position`) " \
               "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
         cursor.executemany(sql, batch)
         connection.commit()
