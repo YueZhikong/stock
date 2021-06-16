@@ -3,6 +3,7 @@ import pymysql
 
 # 疑问1 顶分型与底分型的数量比是n:n+1吗？
 # 顶分型和底分型的数量并不是一比一的，也不是n:n+1的 菜粕2021-3-22是例子
+# 他妈的，隔了一天重新获取数据就n:n+1了,不知道哪里出现了问题
 connection = pymysql.connect(host='localhost',
                              user='root',
                              password='123456',

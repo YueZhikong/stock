@@ -49,8 +49,7 @@ try:
                        results[i]['eob']))
     li.append((0, results[len(results) - 1]['symbol'], results[len(results) - 1]['bob'],
                results[len(results) - 1]['eob']))
-    # cursor.executemany(update_sql, li)
-    cursor.execute(update_sql, li[0])
+    cursor.executemany(update_sql, li)
     connection.commit()
 finally:
     connection.close()
